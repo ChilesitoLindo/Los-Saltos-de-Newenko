@@ -1,0 +1,98 @@
+/* ============================================================
+   Sendero Newenko · Design Tokens — "Estilo Supremo"
+   Fuente: Base de datos/Nuevo diseño (mockups estilo supremo)
+   Paleta de marca idéntica + escala sustrato + estados nuevos.
+   Ver: Spec a implementar/diseno-supremo/spec-diseno-supremo.md
+   ============================================================ */
+
+:root {
+  /* ---------- Fondo y superficies (estilo supremo) ---------- */
+  --bg-frame: #e5edf6;              /* sustrato-200: body fuera del marco móvil */
+  --bg-topo: #f0f4f9;               /* sustrato-100: base del contenedor móvil */
+  --bg-topo-subtle: #f8fafc;        /* sustrato-50: capa sutil */
+  --surface-card: #ffffff;          /* surface-container-lowest: cards */
+  --surface-card-subtle: #eff4ff;   /* surface-container-low */
+  --surface-card-warm: #ffffff;     /* compat: tarjeta → ahora blanca */
+  --surface-glass: rgba(255, 255, 255, 0.8); /* glassmorphism de top/bottom bars */
+  --surface-container: #e5eeff;     /* surface-container */
+  --surface-container-high: #dce9ff;
+  --surface-container-highest: #d2e4ff;
+  --border-topo: rgba(30, 58, 95, 0.1); /* border cordillera/10 */
+  --border-subtle: #e5edf6;         /* sustrato-200 */
+  --outline: #74777f;
+  --outline-variant: #c4c6cf;
+
+  /* ---------- Identidad Cromática (marca + estados nuevos) ---------- */
+  --forest-primary: #1e3b2f;        /* selva (marca) */
+  --forest-dark: #13261f;
+  --forest-soft: #eaf4ee;           /* selva-tint */
+  --selva-soft: #2e5645;
+  --cordillera-blue: #1e3a5f;       /* cordillera (marca) */
+  --cordillera-light: #2a4d7a;      /* hover CTA */
+  --cordillera-dark: #142740;       /* CTA oscuro / variantes dark */
+  --cordillera-muted: #405978;      /* texto secundario */
+  --cordillera-soft: #e6edf5;
+  --amber-track: #c98a3e;           /* ámbar (marca) */
+  --amber-light: #de9f52;
+  --amber-soft: #f9f1e6;            /* ámbar-glow */
+  --granite: #4a525a;
+  --volcanic-rock: #001c37;         /* on-surface: texto principal */
+  --text-muted: #43474e;            /* on-surface-variant */
+  --beacon-red: #b83a2b;            /* baliza: alerta / posición activa / meta */
+  --beacon-soft: #faecea;           /* baliza-glow */
+
+  /* ---------- Tipografías ---------- */
+  /* display/headline/label: Space Grotesk · cuerpo: Plus Jakarta Sans · datos: JetBrains Mono */
+  --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', SFMono-Regular, Menlo, monospace;
+
+  /* Escala tipográfica (mockups: display 30 · h1 24 · h2 18 · h3 14 · body 13 · body-sm 11) */
+  --fs-display: 30px;    --lh-display: 34px;
+  --fs-h1: 24px;         --lh-h1: 28px;
+  --fs-h2: 18px;         --lh-h2: 22px;
+  --fs-h3: 14px;         --lh-h3: 18px;
+  --fs-label-lg: 12px;   --lh-label: 16px;
+  --fs-label-md: 10px;
+  --fs-label-sm: 9px;
+  --fs-body: 13px;       --lh-body: 19px;
+  --fs-body-sm: 11px;    --lh-body-sm: 16px;
+
+  /* ---------- Radios, sombras, espaciado ---------- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 24px;               /* rounded-3xl: cards principales */
+  --radius-pill: 9999px;
+  --shadow-topo: 0 10px 30px -10px rgba(30, 58, 95, 0.08), 0 4px 12px -2px rgba(30, 58, 95, 0.03); /* cards */
+  --shadow-subtle: 0 4px 14px rgba(30, 58, 95, 0.04);
+  --shadow-dock: 0 -4px 20px rgba(30, 58, 95, 0.06);
+  --shadow-cta: 0 10px 25px -5px rgba(30, 58, 95, 0.35);
+  --shadow-hero: 0 8px 20px -6px rgba(30, 58, 95, 0.12);
+
+  /* Escala de espaciado (mockups) */
+  --sp-2xs: 0.25rem;
+  --sp-xs: 0.375rem;
+  --sp-sm: 0.5rem;
+  --sp-md: 0.75rem;
+  --sp-lg: 1rem;
+  --sp-xl: 1.25rem;
+  --sp-2xl: 1.75rem;
+  --frame-max-width: 430px;        /* marco móvil del estilo supremo */
+
+  /* Dimensiones del Shell */
+  --header-height: 56px;
+  --btn-height: 56px;               /* CTA primaria (h-14 del estilo supremo) */
+  --bottom-bar-height: 64px;
+  --safe-bottom: env(safe-area-inset-bottom, 16px);
+
+  /* ---------- Estados ---------- */
+  --danger: #b83a2b;               /* baliza */
+  --danger-soft: #faecea;
+  --warn: #c98a3e;
+  --warn-soft: #f9f1e6;
+  --info: #1e3a5f;
+  --info-soft: #e6edf5;
+  --success: #1e3b2f;
+  --success-soft: #eaf4ee;
+}

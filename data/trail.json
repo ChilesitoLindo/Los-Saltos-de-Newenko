@@ -1,0 +1,38 @@
+{
+  "name": "Sendero Interactivo Los Saltos de Newenko",
+  "sector": "Camping Loncopangue, Quilaco, Región del Biobío",
+  "distanceMeters": 2368,
+  "elevationGainMeters": 85,
+  "initialCota": 1295,
+  "summitCota": 1380,
+  "estimatedDurationMinutes": "40 - 50 min",
+  "difficulty": "Media / Moderada",
+  "vhfFrequency": "148.550 MHz (Canal 14 Loncopangue)",
+  "returnCurfew": "18:30 hrs",
+  "baseServices": [
+    {
+      "icon": "water_drop",
+      "title": "Vertiente",
+      "sub": "Agua pura"
+    },
+    {
+      "icon": "forest",
+      "title": "Sombra",
+      "sub": "Zona pícnic"
+    },
+    {
+      "icon": "local_parking",
+      "title": "Custodia",
+      "sub": "Parking 4x4"
+    }
+  ],
+  "gps": {
+    "enableHighAccuracy": true,
+    "timeout": 10000,
+    "maximumAge": 5000,
+    "lowAccuracyThreshold": 45,
+    "offRouteThresholdMeters": 25,
+    "offRouteReadingsConfirmation": 3,
+    "regressionToleranceReadings": 3
+  }
+}

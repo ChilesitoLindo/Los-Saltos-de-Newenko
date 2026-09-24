@@ -1,0 +1,94 @@
+{
+  "generalWarning": "El GPS es una herramienta de orientación. Sigue siempre la señalización física del sendero y las indicaciones de seguridad del lugar.",
+  "recommendations": [
+    "Usa calzado con buen agarre; el sendero tiene tramos de tierra y madera que pueden estar resbaladizos",
+    "Mantente dentro del trazado señalizado, especialmente cerca de desniveles y miradores",
+    "Respeta los pasamanos y estructuras de madera instaladas en el camino",
+    "Revisa las condiciones climáticas antes de iniciar el recorrido",
+    "Lleva agua; el recorrido puede tomar más tiempo del estimado"
+  ],
+  "emergencyContact": null,
+  "offRouteMessage": "Te alejaste del sendero. Vuelve al punto marcado en el mapa. El bosque es denso aquí.",
+  "terrainAlert": {
+    "tag": "Alerta de terreno // Km 0.4",
+    "text": "Pasarelas de coigüe húmedas con tramos de tablón rústico. Cruzar de a una persona con bastones afirmados."
+  },
+  "checklistIntro": "Verifica tus suministros de seguridad antes de cruzar la compuerta de inicio:",
+  "checklist": [
+    {
+      "id": "water",
+      "icon": "water_bottle",
+      "title": "Carga de Agua Fresca",
+      "badge": "Vertiente activa",
+      "description": "Punto de vertiente limpia en S0. Lleva mínimo 1.5 L en cantimplora cerrada."
+    },
+    {
+      "id": "footwear",
+      "icon": "hiking",
+      "title": "Calzado con Agarre",
+      "badge": "Suela trail",
+      "description": "Sendero de montaña con tramos de tierra suelta, raíces expuestas y roca volcánica."
+    },
+    {
+      "id": "window",
+      "icon": "schedule",
+      "title": "Ventana Horaria Segura",
+      "badge": "Hasta {curfew}",
+      "description": "Tiempo estimado {duration}. Regreso obligatorio antes del oscurecer por brusca caída térmica."
+    },
+    {
+      "id": "battery",
+      "icon": "battery_full",
+      "title": "Batería del Móvil",
+      "badge": "Offline ready",
+      "description": "Activar modo ahorro. La cartografía y la bitácora funcionan al 100% sin cobertura móvil."
+    }
+  ],
+  "rules": {
+    "title": "El Código del Sendero Andino",
+    "subtitle": "Reglas inviolables de cordillera",
+    "items": [
+      {
+        "icon": "delete_forever",
+        "title": "Basura Cero Absoluta",
+        "text": "Regresa con todos tus residuos. Lo orgánico (manzanas, plátanos) altera el hábitat local: empácalo y llévalo."
+      },
+      {
+        "icon": "mode_heat",
+        "title": "Cero Fuego ni Colillas",
+        "text": "Bosque nativo de coigües y robles bajo estrés hídrico. Prohibido fumar o encender cualquier tipo de llama."
+      },
+      {
+        "icon": "alt_route",
+        "title": "Mantente en la Huella",
+        "text": "Evita atajos en la ladera para frenar la erosión geológica y prevenir rodados sobre otros caminantes."
+      },
+      {
+        "icon": "nature_people",
+        "title": "Silencio y Respeto a la Fauna",
+        "text": "Territorio de chucaos, carpinteros negros y zorro culpeo. No lleves parlantes ni interfieras su nido."
+      }
+    ]
+  },
+  "mission": {
+    "title": "Tu Misión en el Sendero",
+    "badge": "Pasaporte digital",
+    "text": "A lo largo del trayecto encontrarás 4 postes de madera con códigos QR grabados. Escanéalos con la cámara de la app para desbloquear tus sellos de expedición y secretos geológicos:",
+    "ctaNote": "Al continuar, declaras transitar bajo tu propia responsabilidad y respeto al entorno."
+  },
+  "returnGuide": {
+    "title": "Guía para el Regreso Seguro al Camping",
+    "items": [
+      {
+        "icon": "south_east",
+        "title": "Descenso por el sendero señalizado",
+        "text": "Baja con paso firme por la traza marcada con estacas amarillas. En tramos húmedos cerca del estero, utilizá los pasamanos de coigüe rústico."
+      },
+      {
+        "icon": "recycling",
+        "title": "Principio No Dejar Huella (NDH)",
+        "text": "Regresá con toda tu basura y respetá la fauna nativa. No enciendas fuego fuera de las zonas autorizadas del campamento."
+      }
+    ]
+  }
+}

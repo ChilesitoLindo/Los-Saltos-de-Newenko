@@ -1,0 +1,123 @@
+/* ============================================================
+   Sendero Newenko · responsive.css — breakpoints y reduced-motion
+   ============================================================ */
+
+@media (max-width: 480px) {
+  .topappbar__subtitle {
+    display: none;
+  }
+
+  /* En pantallas angostas, el ribbon de 4 métricas baja a 2×2 */
+  .ms-ribbon__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pe-passport__facts {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px 8px;
+  }
+
+  .sc-hitos {
+    grid-template-columns: 1fr;
+  }
+
+  .so-metrics {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+
+  .cv-guide__services {
+    grid-template-columns: 1fr;
+  }
+
+  .cv-nb__time {
+    flex-wrap: wrap;
+  }
+
+  .cv-nb__time-sub {
+    margin-left: 0;
+    text-align: left;
+    width: 100%;
+  }
+}
+
+@media (min-width: 769px) {
+  .wv-head__title {
+    font-size: 2.4rem;
+  }
+
+  .pe-title {
+    font-size: 2.3rem;
+  }
+
+  .wv-hero {
+    min-height: 360px;
+  }
+
+  .ms-map__viewport {
+    height: 480px;
+  }
+
+  .ms__main,
+  .nav-view__footer {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    max-width: 720px;
+  }
+
+  .nav-view__footer {
+    max-width: 640px;
+  }
+
+  .station-overlay,
+  .qr-scanner-modal,
+  .safety-overlay {
+    align-items: center;
+    padding-bottom: 24px;
+  }
+
+  .station-overlay__sheet,
+  .qr-scanner-modal__sheet,
+  .safety-overlay__sheet {
+    border-radius: var(--radius-lg);
+  }
+
+  .safety-overlay__close {
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 520px;
+    display: block;
+  }
+
+  .bottombar {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 640px;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    box-shadow: var(--shadow-dock);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .station-overlay__sheet,
+  .qr-scanner-modal__sheet,
+  .safety-overlay__sheet {
+    animation: none;
+  }
+
+  .progress-card__gauge-fill {
+    transition: none;
+  }
+
+  .toast {
+    transition: none;
+  }
+
+  .sc-ribbon__dot {
+    animation: none;
+  }
+}

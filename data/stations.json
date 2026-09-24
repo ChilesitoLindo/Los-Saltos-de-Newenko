@@ -1,0 +1,220 @@
+[
+  {
+    "id": "S0",
+    "name": "Portal de Entrada",
+    "type": "start",
+    "cota": "1.295 msnm",
+    "routeProgress": 0,
+    "shortDescription": "Inicio de la expedición y verificación de equipo en Camping Base Loncopangue.",
+    "whatToObserve": [
+      "Compuerta de madera de roble pellín y pasamanos rústico de montaña.",
+      "Vertiente natural para recarga de cantimploras antes del dosel cerrado.",
+      "Panel de orientación general y normas de visita No Dejar Huella."
+    ],
+    "challenge": {
+      "question": "¿Cuánta agua mínima se exige portar por persona antes de internarse en el cajón?",
+      "options": [
+        "500 ml",
+        "1.5 Litros",
+        "No es necesaria"
+      ],
+      "correctIndex": 1,
+      "badge": "Sello #00 · Huella Calibrada"
+    },
+    "missionHint": "Registro de bitácora",
+    "tags": [
+      "Agua potable",
+      "Check-in QR"
+    ],
+    "image": null,
+    "latitude": -36.809775,
+    "longitude": -73.054093,
+    "safetyNote": "",
+    "audio": null,
+    "qrUrl": "",
+    "isSample": false
+  },
+  {
+    "id": "S1",
+    "name": "Pasarela de Coigües",
+    "type": "interpretation",
+    "cota": "1.320 msnm",
+    "routeProgress": 0.33,
+    "shortDescription": "Bosque nativo húmedo de coigües centenarios sobre morrena glaciar ancestral.",
+    "heroKicker": "Punto de control georreferenciado",
+    "heroTitle": "S1 · El Abrazo del Coigüe Centenario",
+    "heroChips": [
+      "Microclima húmedo"
+    ],
+    "whatToObserve": [
+      "Líquenes 'Barba de Viejo' colgando de ramas altas (bioindicador de pureza atmosférica).",
+      "Canto característico del Chucao a nivel de suelo entre helechos costilla de vaca.",
+      "Estructura de la pasarela construida sobre troncos caídos para proteger el sotobosque."
+    ],
+    "observeBlocks": [
+      {
+        "icon": "nature",
+        "title": "Desafío Visual: Barba de Viejo",
+        "badge": "Sensor biológico",
+        "text": "Busca líquenes «barba de viejo» (Usnea) colgando de las ramas altas de los coigües. Solo proliferan en atmósferas limpias, libres de todo contaminante urbano."
+      },
+      {
+        "icon": "hearing",
+        "title": "Dato Acústico del Arriero",
+        "badge": "Tradición",
+        "text": "Guarda 30 segundos de silencio absoluto: escuchá el trino agudo del Chucao entre los quilares. Según la creencia cordillerana, si canta a tu derecha el ascenso será propicio y seguro."
+      }
+    ],
+    "sections": [
+      {
+        "kind": "text",
+        "title": "El Secreto Geológico del Cajón",
+        "icon": "history_edu",
+        "text": "Bajo tus pies, la madera de la pasarela descansa sobre un lecho de piedras arrastradas por los antiguos glaciares. El agua del estero proviene del deshielo reciente de la cumbre."
+      },
+      {
+        "kind": "delta",
+        "title": "Metros Verticales Conquistados",
+        "text": "Has ganado {delta} desde el campamento base (equivalente a {pisos}). Tu oxigenación se adapta al gradiente andino."
+      }
+    ],
+    "challenge": {
+      "question": "¿Qué indica la presencia abundante de líquenes Barba de Viejo en las ramas?",
+      "options": [
+        "Sequía inminente",
+        "Aire 100% puro y no contaminado",
+        "Exceso de minerales en la tierra"
+      ],
+      "correctIndex": 1,
+      "badge": "Sello #01 · Guardián del Dosel"
+    },
+    "missionHint": "Sello botánico nativo",
+    "observeHeading": "Misión de observación · próximos 100 metros",
+    "tags": [
+      "Coigües",
+      "Pasarela de coigüe"
+    ],
+    "image": "assets/images/pasamanos-coigues.jpg",
+    "latitude": -36.814919,
+    "longitude": -73.05518,
+    "safetyNote": "",
+    "audio": null,
+    "qrUrl": "",
+    "isSample": false
+  },
+  {
+    "id": "S2",
+    "name": "Farellón Basáltico",
+    "type": "interpretation",
+    "cota": "1.350 msnm",
+    "routeProgress": 0.66,
+    "shortDescription": "Cañon geológico de roca volcánica con columnas de enfriamiento lento.",
+    "heroKicker": "Formación volcánica",
+    "heroTitle": "S2 · Farellón Basáltico",
+    "whatToObserve": [
+      "Prismas hexagonales de basalto originados por erupciones cordilleranas hace milenios.",
+      "Eco resonante del agua rebotando en los farellones anunciando la cascada mayor.",
+      "Microclima de vertiente: descenso térmico perceptible de 3°C a 5°C."
+    ],
+    "challenge": {
+      "question": "¿A qué se debe la formación geométrica en columnas del farellón?",
+      "options": [
+        "Erosión por lluvia",
+        "Enfriamiento y contracción lenta de lava volcánica",
+        "Corte manual de arrieros"
+      ],
+      "correctIndex": 1,
+      "badge": "Sello #02 · Ojo Geológico"
+    },
+    "missionHint": "Origen volcánico",
+    "safetyBadge": "Bosque denso",
+    "tags": [
+      "Geología basáltica",
+      "Tranco firme"
+    ],
+    "image": "assets/images/sendero-musgo-helechos.jpg",
+    "latitude": -36.820738,
+    "longitude": -73.053486,
+    "safetyNote": "No salgas del trazado señalizado: el bosque es denso y es fácil desorientarse.",
+    "audio": null,
+    "qrUrl": "",
+    "isSample": true
+  },
+  {
+    "id": "S3",
+    "name": "Mirador Gran Cascada",
+    "type": "viewpoint",
+    "cota": "1.380 msnm",
+    "routeProgress": 1,
+    "shortDescription": "Cumbre y destino final. Plataforma panorámica frente al Salto Newenko de 30 metros.",
+    "heroKicker": "Punto final del sendero",
+    "heroTitle": "S3 · Gran Mirador & Vuelo de Cóndores",
+    "heroSubtitle": "Balcón natural suspendido sobre la garganta basáltica del Estero Newenko",
+    "heroChips": [
+      "Cascada Los Saltos · 30 m de agua de deshielo"
+    ],
+    "whatToObserve": [
+      "Pulverización glaciar constante alimentada por el deshielo del Cordón Tricauco.",
+      "Corrientes térmicas ascendentes en el cañón donde planean cóndores andinos.",
+      "Roca madre pulida por el caudal permanente del Estero Newenko."
+    ],
+    "observeBlocks": [
+      {
+        "icon": "volcano",
+        "title": "Geología de la Quebrada",
+        "badge": "Basalto columnar",
+        "text": "Farellones de basalto columnar formados por el enfriamiento lento de erupciones cordilleranas ancestrales, esculpidos durante milenios por el agua de deshielo."
+      },
+      {
+        "icon": "air",
+        "title": "Corrientes Térmicas: Vuelo de Cóndores",
+        "badge": "11:00 - 15:00 hrs",
+        "text": "El cañón genera corrientes térmicas ascendentes en las horas centrales. Mirá hacia el cielo: los cóndores andinos (Vultur gryphus) aprovechan el vórtice para planear sin aletear."
+      },
+      {
+        "icon": "forest",
+        "title": "Flora de Riberas y Salpicadura",
+        "badge": "Bosque nativo",
+        "text": "Coigües centenarios (Nothofagus dombeyi) y helechos costilla de vaca en el sotobosque húmedo, sostenidos por la constante llovizna generada por la caída de 30 metros."
+      }
+    ],
+    "fluidMetric": {
+      "label": "Vertiente",
+      "value": "Glaciar",
+      "sub": "Deshielo activo"
+    },
+    "summitLog": true,
+    "challenge": {
+      "question": "¿Cuál es la regla fundamental de seguridad en la plataforma del mirador?",
+      "options": [
+        "Trepar la baranda para fotografiar",
+        "Mantenerse detrás de los troncos de protección",
+        "Bañarse bajo el salto"
+      ],
+      "correctIndex": 1,
+      "badge": "Sello #03 · Cumbre Conquistada"
+    },
+    "missionHint": "Gran Salto 30m",
+    "observeHeading": "Qué observar en este punto",
+    "observeBadge": "Guía naturalista",
+    "safetyBadge": "Zona expuesta",
+    "tags": [
+      "Fin de sendero",
+      "Punto panorámico"
+    ],
+    "image": "assets/images/cascada-principal.jpg",
+    "latitude": -36.827134,
+    "longitude": -73.050352,
+    "safetyNote": "Antes de acercarte al borde: mantente detrás de la baranda, supervisa a niños y niñas, y evita usar el teléfono con las manos mojadas cerca del mirador.",
+    "audio": null,
+    "qrUrl": "",
+    "isSample": true,
+    "detail": {
+      "title": "Frente a la cascada",
+      "paragraphs": [
+        "Plataforma actualmente en construcción. El diseño contempla barandas altas, suelo antideslizante y un punto de foto sin asomarse al vacío.",
+        "Desde aquí se domina el salto principal y el sonido del agua es la mejor compañía para un descanso antes de volver por el mismo trazado."
+      ]
+    }
+  }
+]
