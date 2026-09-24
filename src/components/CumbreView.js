@@ -54,7 +54,7 @@ export class CumbreView {
           <div>
             <span class="cv-nb__metric-label">Estaciones</span>
             <strong>${stampCount} / ${total}</strong>
-            <span class="cv-nb__metric-sub">${this.stations.map((s) => s.id).join(', ')}</span>
+            <span class="cv-nb__metric-sub">${this.stations.map((s) => format.escapeHtml(s.id)).join(', ')}</span>
           </div>
         </div>
         <div class="cv-nb__metric">

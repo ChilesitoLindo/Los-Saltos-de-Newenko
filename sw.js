@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'newenko-v14';
+const CACHE_VERSION = 'newenko-v15';
 // Mosaicos de mapa (red externa): caché aparte y acotada para no
 // mezclar tiles con el shell precacheado ni crecer sin límite
 // (spec UX §18-19). Sobrevive a actualizaciones de la app.
@@ -9,6 +9,12 @@ const isTileRequest = (hostname) =>
   hostname === 'server.arcgisonline.com' ||
   hostname === 'tile.openstreetmap.org' ||
   hostname.endsWith('.tile.openstreetmap.org');
+
+// Hosts cross-origin que la app usa y que están SIEMPRE en el shell
+// (Leaflet vía unpkg). Permitidos para cache-first, nunca para incluir
+// respuestas nuevas obtenidas en runtime (V8 — allowlist estricta).
+const isAllowedCdnHost = (hostname) =>
+  hostname === 'unpkg.com';
 const APP_SHELL = [
   './',
   './index.html',
@@ -16,6 +22,12 @@ const APP_SHELL = [
   './styles/tokens.css',
   './styles/main.css',
   './styles/responsive.css',
+  './assets/fonts/fonts.css',
+  './assets/fonts/space-grotesk-latin.woff2',
+  './assets/fonts/plus-jakarta-sans-latin.woff2',
+  './assets/fonts/plus-jakarta-sans-italic-latin.woff2',
+  './assets/fonts/jetbrains-mono-latin.woff2',
+  './assets/fonts/material-symbols-outlined.woff2',
   './src/app.js',
   './src/router.js',
   './src/managers/RouteManager.js',
@@ -171,18 +183,17 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Otras cruzadas (p. ej. CDN): cache-first solo con respuestas válidas.
-  event.respondWith(
-    caches.match(request).then(
-      (cached) =>
-        cached ||
-        fetch(request).then((response) => {
-          if (response && (response.ok || response.type === 'opaque')) {
-            const copy = response.clone();
-            caches.open(CACHE_VERSION).then((cache) => cache.put(request, copy)).catch(() => {});
-          }
-          return response;
-        })
-    )
-  );
+  // CDN permitidos (Leaflet via unpkg): cache-first estricto, pero NUNCA
+  // se agregan a la caché respuestas obtenidas en runtime (V8).
+  // Solo se sirve lo que ya está en el shell precacheado.
+  if (isAllowedCdnHost(url.hostname)) {
+    event.respondWith(
+      caches.match(request).then((cached) => cached || fetch(request))
+    );
+    return;
+  }
+
+  // Cualquier otra petición cross-origin se deja pasar sin tocar: fuera
+  // de la allowlist no hay cacheo (V8 — nada de respuestas arbitrarias).
+  return;
 });
