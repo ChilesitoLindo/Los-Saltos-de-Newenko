@@ -149,8 +149,9 @@ export class WelcomeView {
               <span class="material-symbols-outlined" aria-hidden="true">hiking</span>
               Explorar el sendero
               <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
-            </button>
-            <p class="wv-cta__note">Sin cuentas ni datos personales · el GPS se procesa solo en tu teléfono</p>
+             </button>
+             <p class="wv-cta__note">Sin cuentas ni perfiles de usuario · GPS opcional</p>
+             <button type="button" class="wv-legal-link" data-role="legal" aria-haspopup="dialog">Términos de uso y aviso de privacidad</button>
           </section>
         </main>
       </div>
@@ -174,6 +175,13 @@ export class WelcomeView {
         if (!target) return;
         const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+      });
+    }
+
+    const legal = this.container.querySelector('[data-role="legal"]');
+    if (legal) {
+      legal.addEventListener('click', () => {
+        if (this.options.onOpenLegal) this.options.onOpenLegal();
       });
     }
   }

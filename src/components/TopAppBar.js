@@ -18,6 +18,9 @@ export class TopAppBar {
         <div class="topappbar__actions">
           <span class="topappbar__cota" data-role="cota" hidden></span>
           <span class="topappbar__offline-chip" data-role="offline" hidden>Modo expedición · Sin conexión</span>
+          <button class="topappbar__legal" data-role="legal" aria-label="Términos y aviso de privacidad">
+            <span class="material-symbols-outlined">description</span>
+          </button>
           <button class="topappbar__safety" data-role="safety" aria-label="Información de seguridad">
             <span class="material-symbols-outlined">shield</span>
           </button>
@@ -26,6 +29,9 @@ export class TopAppBar {
     `;
     this._offlineEl = this.container.querySelector('[data-role="offline"]');
     this._cotaEl = this.container.querySelector('[data-role="cota"]');
+    this.container.querySelector('[data-role="legal"]').addEventListener('click', () => {
+      if (this.options.onLegal) this.options.onLegal();
+    });
     this.container.querySelector('[data-role="safety"]').addEventListener('click', () => {
       if (this.options.onSafety) this.options.onSafety();
     });

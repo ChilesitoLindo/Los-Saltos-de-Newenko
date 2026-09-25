@@ -27,6 +27,7 @@ Carpeta limpia que contiene **solo los archivos de la app** para subir a un host
 2. **Subir el contenido de esta carpeta** (el contenido de `deploy/`, no la carpeta en sí) a la **raíz** del repositorio:
    - *Opción A (web):* `Add file → Upload files` → arrastrar `index.html`, `manifest.json`, `sw.js`, `.nojekyll` y las carpetas `src/`, `styles/`, `data/`, `assets/`.
    - *Opción B (git):* copiar el contenido a una carpeta nueva, `git init` → `git add .` → `git commit -m "inicio"` → `git remote add origin <url>` → `git push -u origin main`.
+   - **Además (para que Dependabot y el CI funcionen, ver «Seguridad»):** subir también `package.json`, `scripts/security-check.mjs` y la carpeta `.github/` a la raíz del repositorio. Sin esto el workflow no existe en la rama.
 3. **Activar Pages:** en el repo → `Settings → Pages` → *Source:* `Deploy from a branch` → *Branch:* `main` / `(root)` → `Save`.
 4. **Esperar ~1 minuto.** La app queda en:
    `https://USUARIO.github.io/REPO/`
@@ -41,13 +42,15 @@ Carpeta limpia que contiene **solo los archivos de la app** para subir a un host
 - **No hay API keys, tokens ni secretos** en la app — no hay nada que robar del código.
 - **Sin backend:** el GPS y el `localStorage` de cada visitante **nunca salen de su teléfono**.
 - El único dominio externo al que habla la app es el clima (Open-Meteo, público y sin clave) y los mosaicos OSM/Esri.
+- **CSP estricta** (meta en `index.html`) con los dominios exactos de la app; **fuentes self-hosted** (`assets/fonts/`); **SRI + versión fija** para Leaflet; **`no-referrer`** para que `?station=` nunca llegue a terceros; service worker con **allowlist de tiles** (sin cachear cross-origin arbitrarios).
+- **Tras el primer push, activar en GitHub Settings (no se puede hacer desde código):** 2FA obligatorio, proteger `main` (PR + revisión, sin push directo), Dependabot alerts y secret scanning. El repositorio incluye `package.json` (manifiesto) y el workflow `.github/workflows/security-check.yml` para que Dependabot y el CI funcionen.
 - **Publicar siempre solo esta carpeta**, nunca la raíz del proyecto completo (donde viven copias de seguridad y materiales internos).
 
 ---
 
 ## Si se cambia código más adelante
 
-Volver a copiar los archivos modificados al repo (`src/`, `styles/`, `sw.js`, etc.) y hacer push. Si se modifica `sw.js`, **incrementar `CACHE_VERSION`** (p. ej. `newenko-v14` → `newenko-v15`) para que los teléfonos descarguen la versión nueva.
+Volver a copiar los archivos modificados al repo (`src/`, `styles/`, `sw.js`, `assets/fonts/`, etc.) y hacer push. Si se modifica `sw.js`, **incrementar `CACHE_VERSION`** (p. ej. `newenko-v15` → `newenko-v16`) para que los teléfonos descarguen la versión nueva. El CI `security-check` valida en cada push: sin `eval`/`new Function`/`document.write`, recursos remotos con SRI + versión, whitelist de estaciones y esquema de `data/*.json`. Se puede correr local: `node scripts/security-check.mjs`.
 
 ---
 

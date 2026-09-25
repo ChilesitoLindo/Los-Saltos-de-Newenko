@@ -72,14 +72,16 @@
 
   .station-overlay,
   .qr-scanner-modal,
-  .safety-overlay {
+  .safety-overlay,
+  .legal-modal {
     align-items: center;
     padding-bottom: 24px;
   }
 
   .station-overlay__sheet,
   .qr-scanner-modal__sheet,
-  .safety-overlay__sheet {
+  .safety-overlay__sheet,
+  .legal-modal__sheet {
     border-radius: var(--radius-lg);
   }
 
@@ -105,7 +107,8 @@
 @media (prefers-reduced-motion: reduce) {
   .station-overlay__sheet,
   .qr-scanner-modal__sheet,
-  .safety-overlay__sheet {
+  .safety-overlay__sheet,
+  .legal-modal__sheet {
     animation: none;
   }
 

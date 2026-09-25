@@ -15,6 +15,7 @@ import { PortalEntranceView } from './components/PortalEntranceView.js';
 import { MapScreen } from './components/MapScreen.js';
 import { StationOverlay } from './components/StationOverlay.js';
 import { QrScannerModal } from './components/QrScannerModal.js';
+import { LegalModal, LEGAL_VERSION } from './components/LegalModal.js';
 import { CumbreView } from './components/CumbreView.js';
 import { FinalizacionView } from './components/FinalizacionView.js';
 import { TopAppBar } from './components/TopAppBar.js';
@@ -61,6 +62,7 @@ class App {
     this.mapView = null;
     this.stationOverlay = null;
     this.qrScanner = null;
+    this.legalModal = null;
     this.cumbreView = null;
     this.finalizacionView = null;
     this.topAppBar = null;
@@ -133,7 +135,14 @@ class App {
       this._renderShell();
       this._refreshCota();
       this.showWelcome();
-      this.router.dispatch();
+      if (!this._hasAcceptedLegal()) {
+        this.openLegal({
+          requireAcceptance: true,
+          onAccept: () => this.router.dispatch()
+        });
+      } else {
+        this.router.dispatch();
+      }
       if (this.notice) this._renderNotice(this.notice);
       await loader.finish();
     } catch {
@@ -153,7 +162,8 @@ class App {
     this._bottomNavBarHost = this.root.querySelector('#bottom-navbar-host');
 
     this.topAppBar = new TopAppBar(this._topAppBarHost, {
-      onSafety: () => this.openSafety()
+      onSafety: () => this.openSafety(),
+      onLegal: () => this.openLegal()
     });
     this.topAppBar.mount();
 
@@ -161,6 +171,11 @@ class App {
       onTab: (tab) => this._onTab(tab)
     });
     this.bottomNavBar.mount();
+  }
+
+  _setGpsMode(on) {
+    this.root.classList.toggle('is-gps', !!on);
+    document.body.classList.toggle('is-gps', !!on);
   }
 
   _initNavigationComponents() {
@@ -266,7 +281,8 @@ class App {
       trail: this.trail,
       stations: this.stations,
       photo: PHOTOS.welcomeHero,
-      onStart: () => this.showOperationalStart()
+      onStart: () => this.showOperationalStart(),
+      onOpenLegal: () => this.openLegal({ requireAcceptance: !this._hasAcceptedLegal() })
     });
     view.mount();
     this.introView = view;
@@ -327,6 +343,7 @@ class App {
       checklistDone: activated ? checklist.length : (this._prepCount || 0),
       onOpenChecklist: () => this.showChecklist(),
       onStart: () => (this._isActivated() ? this.showMap() : this.showChecklist()),
+      onOpenLegal: () => this.openLegal({ requireAcceptance: !this._hasAcceptedLegal() }),
       onViewMap: () => this.showMap()
     });
     view.mount();
@@ -410,6 +427,7 @@ class App {
     }
     this._clearScreenHost();
     this.screen = 'navigation';
+    this._setGpsMode(true);
 
     const screen = document.createElement('div');
     screen.className = 'screen';
@@ -423,12 +441,9 @@ class App {
         if (pos) this.navView.centerOn(pos);
       },
       onScan: () => this.openScanner(),
-      onRetake: () => {
-        this.nav && this.nav.stop();
-        this._setNavigationRunning(true);
-        if (this.progress) this.progress.reset();
-      },
-      onSafety: () => this.openSafety(),
+      onRetake: () => this._retakeNavigation(),
+      onExit: () => this._exitNavigation(),
+      onInfo: () => this.openSafety(),
       onOpenStation: (id) => this._openStationById(id)
     });
     this.navView.mount(screen, {
@@ -605,6 +620,34 @@ class App {
     history.replaceState({}, document.title, window.location.pathname);
   }
 
+  _hasAcceptedLegal() {
+    const accepted = storage.get('legalAccepted');
+    return accepted && accepted.version === LEGAL_VERSION;
+  }
+
+  openLegal({ requireAcceptance = false, onAccept } = {}) {
+    if (this.overlay === 'legal') return;
+
+    const overlayEl = document.createElement('div');
+    overlayEl.className = 'overlay-host';
+    this.root.appendChild(overlayEl);
+    this.overlay = 'legal';
+
+    this.legalModal = new LegalModal(overlayEl, {
+      requireAcceptance,
+      onAccept: (record) => {
+        if (requireAcceptance) storage.set('legalAccepted', record);
+        this.closeOverlay();
+        if (onAccept) onAccept();
+      },
+      onClose: () => {
+        this.legalModal = null;
+        this.closeOverlay();
+      }
+    });
+    this.legalModal.open();
+  }
+
   openSafety() {
     if (this.overlay === 'safety') return;
 
@@ -631,7 +674,7 @@ class App {
         <div class="safety-overlay__backdrop" data-role="backdrop"></div>
         <div class="safety-overlay__sheet">
           <header class="safety-overlay__header">
-            <h2>Seguridad en el sendero</h2>
+             <h2>Información y seguridad</h2>
           </header>
           <div class="safety-overlay__body">
             <p class="safety-overlay__warning">${format.escapeHtml(data.generalWarning || '')}</p>
@@ -649,6 +692,10 @@ class App {
   }
 
   closeOverlay() {
+    if (this.legalModal) {
+      this.legalModal.destroy();
+      this.legalModal = null;
+    }
     const overlays = this.root.querySelectorAll('.overlay-host');
     overlays.forEach(l => l.remove());
     document.body.classList.remove('is-overlayed');
@@ -659,6 +706,7 @@ class App {
 
   _clearScreenHost() {
     this.closeOverlay();
+    this._setGpsMode(false);
     this._screenHost.innerHTML = '';
     this._followedOnce = false;
     if (this.navView) {
@@ -674,6 +722,17 @@ class App {
   }
 
   /* ---------- Navegación ---------- */
+
+  _retakeNavigation() {
+    if (this.nav && this.nav.acknowledgeOffRoute) this.nav.acknowledgeOffRoute();
+  }
+
+  _exitNavigation() {
+    if (this.nav) this.nav.stop();
+    this.navRunning = false;
+    storage.set('navigationStarted', false);
+    this.showOperationalStart();
+  }
 
   _setNavigationRunning(running) {
     this.navRunning = running;

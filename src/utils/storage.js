@@ -9,7 +9,8 @@ const ALLOWED_KEYS = new Set([
   // leído para mostrarlo sin conexión; summitLog = libro de cumbre
   // (texto local del visitante, nunca sale del dispositivo).
   'lastWeather',
-  'summitLog'
+  'summitLog',
+  'legalAccepted'
 ]);
 
 const get = (key) => {

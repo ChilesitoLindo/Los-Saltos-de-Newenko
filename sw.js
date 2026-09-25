@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'newenko-v15';
+const CACHE_VERSION = 'newenko-v18';
 // Mosaicos de mapa (red externa): caché aparte y acotada para no
 // mezclar tiles con el shell precacheado ni crecer sin límite
 // (spec UX §18-19). Sobrevive a actualizaciones de la app.
@@ -52,6 +52,7 @@ const APP_SHELL = [
   './src/components/BottomNavBar.js',
   './src/components/StationOverlay.js',
   './src/components/QrScannerModal.js',
+  './src/components/LegalModal.js',
   './src/components/CumbreView.js',
   './src/components/FinalizacionView.js',
   './src/demo/DemoController.js',

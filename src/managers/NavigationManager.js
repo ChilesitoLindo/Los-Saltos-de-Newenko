@@ -21,7 +21,7 @@ const DEFAULT_GPS = {
 const STATUS_COPY = {
   stopped: '',
   searching: 'Calibrando señal satelital en el dosel...',
-  active: (acc) => `En ruta · Precisión ±${Math.round(acc)}m`,
+  active: (accuracy) => `En ruta · Precisión ±${Math.round(accuracy)}m`,
   'low-accuracy': 'Señal satelital débil bajo coigües',
   'off-route': 'Fuera de huella · Retorna al sendero',
   'no-permission': 'Activa la ubicación para seguir tu recorrido'
@@ -30,12 +30,8 @@ const STATUS_COPY = {
 export class NavigationManager {
   constructor(config = {}) {
     const gpsConfig = { ...(config.gps || {}) };
-    if (gpsConfig.offRouteThresholdMeters != null && gpsConfig.offRouteThreshold == null) {
-      gpsConfig.offRouteThreshold = gpsConfig.offRouteThresholdMeters;
-    }
-    if (gpsConfig.offRouteReadingsConfirmation != null && gpsConfig.offRouteConfirmationReadings == null) {
-      gpsConfig.offRouteConfirmationReadings = gpsConfig.offRouteReadingsConfirmation;
-    }
+    if (gpsConfig.offRouteThresholdMeters != null && gpsConfig.offRouteThreshold == null) gpsConfig.offRouteThreshold = gpsConfig.offRouteThresholdMeters;
+    if (gpsConfig.offRouteReadingsConfirmation != null && gpsConfig.offRouteConfirmationReadings == null) gpsConfig.offRouteConfirmationReadings = gpsConfig.offRouteReadingsConfirmation;
     this.config = { ...DEFAULT_GPS, ...gpsConfig };
     this.line = config.line || [];
     this._positionHandler = config.onPosition || (() => {});
@@ -44,6 +40,7 @@ export class NavigationManager {
     this.lastPosition = null;
     this._watchId = null;
     this._consecutiveOffRoute = 0;
+    this._lastMessage = '';
   }
 
   onPosition(handler) {
@@ -64,7 +61,6 @@ export class NavigationManager {
       return;
     }
     if (this._watchId !== null) return;
-
     this._setStatus(STATUS.SEARCHING, STATUS_COPY.searching);
     try {
       await this._ensurePermission();
@@ -72,10 +68,9 @@ export class NavigationManager {
       this._setStatus(STATUS.NO_PERMISSION, STATUS_COPY['no-permission']);
       return;
     }
-
     this._watchId = navigator.geolocation.watchPosition(
-      (pos) => this._onReading(pos),
-      (err) => this._onError(err),
+      (position) => this._onReading(position),
+      (error) => this._onError(error),
       {
         enableHighAccuracy: this.config.enableHighAccuracy,
         timeout: this.config.timeout,
@@ -88,7 +83,7 @@ export class NavigationManager {
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(
         () => resolve(),
-        (err) => reject(err),
+        (error) => reject(error),
         { enableHighAccuracy: true, timeout: 10000, maximumAge: 5000 }
       );
     });
@@ -107,6 +102,16 @@ export class NavigationManager {
     this._setStatus(STATUS.SEARCHING, STATUS_COPY.searching);
   }
 
+  acknowledgeOffRoute() {
+    this._consecutiveOffRoute = 0;
+    if (this._watchId === null && !this.lastPosition) {
+      this._setStatus(STATUS.SEARCHING, STATUS_COPY.searching);
+      return;
+    }
+    const accuracy = this.lastPosition && Number.isFinite(this.lastPosition.accuracy) ? this.lastPosition.accuracy : null;
+    this._setStatus(STATUS.ACTIVE, accuracy === null ? 'En ruta' : STATUS_COPY.active(accuracy), accuracy);
+  }
+
   injectReading(position) {
     if (!position) return;
     const coords = position.coords || position;
@@ -116,8 +121,8 @@ export class NavigationManager {
     });
   }
 
-  _onError(err) {
-    if (err && err.code === err.PERMISSION_DENIED) {
+  _onError(error) {
+    if (error && error.code === error.PERMISSION_DENIED) {
       this.stop();
       this._setStatus(STATUS.NO_PERMISSION, STATUS_COPY['no-permission']);
       return;
@@ -125,35 +130,36 @@ export class NavigationManager {
     this._setStatus(STATUS.SEARCHING, STATUS_COPY.searching);
   }
 
-  _onReading(pos) {
-    const src = pos && pos.coords && typeof pos.coords !== 'function' ? pos.coords : pos;
-    const lat = typeof src.latitude === 'number' ? src.latitude : src.lat;
-    const lon = typeof src.longitude === 'number' ? src.longitude : src.lon;
+  _onReading(position) {
+    const source = position && position.coords && typeof position.coords !== 'function' ? position.coords : position;
+    const lat = typeof source.latitude === 'number' ? source.latitude : source.lat;
+    const lon = typeof source.longitude === 'number' ? source.longitude : source.lon;
     if (!Number.isFinite(lat) || !Number.isFinite(lon)) return;
-    const p = {
+    const reading = {
       lat,
       lon,
-      accuracy: typeof src.accuracy === 'number' ? src.accuracy : null,
-      altitude: src.altitude,
-      speed: src.speed,
-      heading: src.heading,
-      timestamp: typeof pos.timestamp === 'number' ? pos.timestamp : Date.now()
+      accuracy: typeof source.accuracy === 'number' ? source.accuracy : null,
+      altitude: source.altitude,
+      speed: source.speed,
+      heading: source.heading,
+      timestamp: typeof position.timestamp === 'number' ? position.timestamp : Date.now()
     };
-    if (!Number.isFinite(p.accuracy)) p.accuracy = null;
-    this.lastPosition = p;
-    this._positionHandler(p);
+    if (!Number.isFinite(reading.accuracy)) reading.accuracy = null;
+    this.lastPosition = reading;
+    this._positionHandler(reading);
 
-    if (p.accuracy !== null && p.accuracy > this.config.lowAccuracyThreshold) {
-      this._setStatus(STATUS.LOW_ACCURACY, STATUS_COPY['low-accuracy'], p.accuracy);
+    if (reading.accuracy !== null && reading.accuracy > this.config.lowAccuracyThreshold) {
+      this._setStatus(STATUS.LOW_ACCURACY, STATUS_COPY['low-accuracy'], reading.accuracy);
       this._consecutiveOffRoute = 0;
       return;
     }
 
-    const nearest = geo.findNearestSegment(p, this.line);
+    const nearest = geo.findNearestSegment(reading, this.line);
     if (nearest && nearest.distance > this.config.offRouteThreshold) {
       this._consecutiveOffRoute += 1;
       if (this._consecutiveOffRoute >= this.config.offRouteConfirmationReadings) {
-        this._setStatus(STATUS.OFF_ROUTE, STATUS_COPY['off-route'], p.accuracy);
+        this._consecutiveOffRoute = 0;
+        this._setStatus(STATUS.OFF_ROUTE, STATUS_COPY['off-route'], reading.accuracy);
         return;
       }
     } else {
@@ -162,8 +168,8 @@ export class NavigationManager {
 
     this._setStatus(
       STATUS.ACTIVE,
-      p.accuracy !== null ? STATUS_COPY.active(p.accuracy) : 'En ruta',
-      p.accuracy
+      reading.accuracy !== null ? STATUS_COPY.active(reading.accuracy) : 'En ruta',
+      reading.accuracy
     );
   }
 

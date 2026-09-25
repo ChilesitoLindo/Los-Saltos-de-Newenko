@@ -192,6 +192,11 @@ export class PortalEntranceView {
             </div>
           </div>
 
+          <button type="button" class="pe-legal-link" data-role="legal" aria-haspopup="dialog">
+            <span class="material-symbols-outlined" aria-hidden="true">description</span>
+            Términos de uso y aviso de privacidad
+          </button>
+
           <section class="pe-conds" aria-label="Condiciones de marcha y entorno">
             <div class="pe-conds__head">
               <h3 class="pe-conds__title">Condiciones de Marcha &amp; Entorno</h3>
@@ -223,6 +228,12 @@ export class PortalEntranceView {
     if (openMap) {
       openMap.addEventListener('click', () => {
         if (this.options.onViewMap) this.options.onViewMap();
+      });
+    }
+    const legal = this.container.querySelector('[data-role="legal"]');
+    if (legal) {
+      legal.addEventListener('click', () => {
+        if (this.options.onOpenLegal) this.options.onOpenLegal();
       });
     }
     this.container.querySelector('[data-role="gpx"]').addEventListener('click', () => {
